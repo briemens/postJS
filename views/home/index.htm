@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Welcome to postJS</title>
+    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js'></script>
+</head>
+<body>
+<h1>Welcome to postJS</h1>
+
+<h2>Hi!</h2>
+<ul id='posts'></ul>
+<fieldset>
+    <legend>Post a link</legend>
+    <form id="post-form" action="/post" type="Post">
+        <label for="title">Title</label><input id="title" name="title" type="text"/>
+        <label for="url">Url</label><input id="url" name="url" type="text"/>
+        <input type="submit" id="submit" name="submit" value="Post link"/>
+    </form>
+</fieldset>
+<script type='text/javascript'>
+    var posts_element = $('#posts'),
+            post_form = $('#post-form'),
+            submit_button = $('#submit'),
+            title_input = $('#title'),
+            url_input = $('#url');
+
+    $.ajax({
+        url: '/getAllPosts',
+        type: 'GET',
+        dataType: 'json',
+        success: function (posts) {
+            console.log('posts', posts);
+            $.each(posts, function (index, post) {
+                posts_element.append($('<li><a href="' + post.url + '" target="_blank">' + post.title + '</a></li>'));
+            });
+        }
+    });
+
+    post_form.submit(function () {
+        return true;
+        $("input", this).attr('disabled', 'disabled');
+        title_input.val('');
+        url_input.val('');
+        $("input", this).removeAttr('disabled');
+        //return false;
+    });
+
+    title_input.focus();
+</script>
+</body>
+</html>
