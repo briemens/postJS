@@ -1,0 +1,19 @@
+fieldset
+	legend Post list
+	p Check out the following links...
+	ul#posts
+script
+	$.ajax({
+		url: '/getAllPosts',
+		type: 'GET',
+		dataType: 'json',
+		success: function (posts) {
+			console.log('posts', posts);
+			$.each(posts, function (index, post) {
+				$('#posts').append($('<li><a href="' + post.url + '" target="_blank">' + post.title + '</a></li>'));
+			});
+		},
+		error: function(err) {
+			$("#errors").append(err.responseText).show();
+		}
+	});

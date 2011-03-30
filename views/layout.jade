@@ -1,7 +1,12 @@
 !!!5
 html
 	head
-		title Hello World
+		title Welcome to postJS
+		script(type='text/javascript', src='http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js')
+		link(rel='stylesheet', type="text/css", href="/postjs.css")
+
 	body
-		h1 postJS
-		#container!= body
+		h1 Welcome to postJS!
+		div#flash(style='display:none')
+		div#errors(style='display:none')
+		div#container!= body

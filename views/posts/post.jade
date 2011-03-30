@@ -1,0 +1,39 @@
+fieldset
+	legend Post a link
+	form#post-form(method='post', action='/post')
+		label(for='title') Title
+		input#title(name='title')
+		label(for='url') Url
+		input#url(name='url')
+		input#submit(type='submit', name='submit', value='Post')
+script
+	var post_form = $('#post-form'),
+		submit_button = $('#submit'),
+		titleInput = $('#title'),
+		urlInput = $('#url');
+
+	post_form.submit(function () {
+		$("#flash, #errors").hide();
+		var formData = $(this).serialize();
+		$("input", this).attr('disabled', 'disabled');
+		$.ajax({
+			url: "/post",
+			type: "post",
+			data: formData,
+			success: function (e) {
+				console.log("!");
+				$("input", post_form).removeAttr('disabled');
+				$("#flash").text(e).show();
+				$('#title').focus();
+			},
+			error: function (err) {
+				$("#errors").text(err.responseText).show();
+			}
+		});
+		$('#title').val('');
+		$("#url").val('');
+		return false;
+	});
+
+script
+	$('#title').focus();
