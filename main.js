@@ -1,12 +1,13 @@
 /*jslint nomen:false */
 /*global require, console, __dirname */
 
-var express = require('express'),
-	app = express.createServer(),
-	sys = require('sys'),
-	css = require('stylus'),
-	repository = require('./repository'),
-	str = require('fs').readFileSync(__dirname + '/styles/postjs.styl', 'utf8');
+var express = require('express');
+var app = express.createServer();
+var sys = require('sys');
+var css = require('stylus');
+var repository = require('./repository');
+var str = require('fs').readFileSync(__dirname + '/styles/postjs.styl', 'utf8');
+var io = require('socket.io');
 
 app.configure('dev', function () {
 	app.use(express.logger());
@@ -58,4 +59,16 @@ app.get('/postjs.css', function (req, res) {
 	});
 });
 
+var socket = io.listen(app);
+socket.on("connection", function (client) {
+	console.log('Client connected');
+	client.on('message', function(e) {
+		console.log('Message', e);
+		client.send(e);
+		client.broadcast(e);
+	});
+	client.on('disconnect', function() {
+		console.log('Client disconnected')
+	});
+});
 app.listen(3000);

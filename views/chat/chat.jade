@@ -1,0 +1,35 @@
+fieldset.chatroom
+	legend Chatroom
+	ul.list
+	form
+		input.message.textbox(type="text")
+		input.send.command.button(type="submit", value="Send")
+script
+	$(function() {
+		var socket = new io.Socket('localhost');
+		socket.connect();
+		socket.on('connect', function() {
+			console.log('Connected');
+		});
+		socket.on('message', function(message) {
+			console.log('Message', message);
+			$(".chatroom .list").append($("<li/>").text(message));
+			$(".chatroom .message.textbox").val("");
+			$(".chatroom input").removeAttr("disabled");
+		});
+		socket.on('disconnect', function() {
+			console.log('Disconnected');
+		});
+		$(".chatroom").click(function() {
+			$(".chatroom .message.textbox").focus();
+		});
+		$(".chatroom .list").slideDown(400, function () {
+			$(".chatroom .message.textbox").focus();
+			$(".chatroom form").submit(function() {
+				var message = $(".chatroom .message.textbox").val();
+				$(".chatroom input").attr("disabled", "disabled");
+				socket.send(message);
+				return false;
+			});
+		});
+	});

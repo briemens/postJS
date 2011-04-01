@@ -10,21 +10,36 @@
 888                            .d88P"
 888                           888P" 
 
-date:
+date
 	2011/3/25
 
-author: 
+author
 	briemens
 
-title:
+title
 	postJS
 
-description:
+description
 	Web App for sharing links to interesting web sites.
+		Now with chat room to demonstrate websockets
 	A demo app written in JavaScript using NodeJS.
 
-dependencies:
+dependencies
 	NodeJS v0.4.2
 	Express
 	Jade
 	Stylus
+	socket.io
+
+Supported browsers
+	Desktop
+		Internet Explorer 5.5 - 8
+		Safari 3 - 5
+		Google Chrome 4 - 6
+		Firefox 3-4
+		Opera 10.61
+	Mobile
+		iPhone Safari
+		iPad Safari
+		Android WebKit
+		WebOs WebKit
